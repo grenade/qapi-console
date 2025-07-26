@@ -35,7 +35,7 @@ export const Header = () => {
             alt="papi-logo"
           />
           <h1 className="hidden min-[72rem]:block poppins-regular text-lg">
-            papi <span className="poppins-extralight">console</span>
+            qapi <span className="poppins-extralight">console</span>
           </h1>
           <div className="absolute -bottom-1 left-0 min-[72rem]:bottom-0 min-[72rem]:right-1 text-right text-sm">
             (beta)
