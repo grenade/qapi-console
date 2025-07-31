@@ -10,4 +10,7 @@ pnpm install
 
 # run
 pnpm dev
+
+# deploy
+pnpm deploy
 ```
