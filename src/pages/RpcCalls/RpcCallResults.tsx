@@ -41,7 +41,7 @@ const RpcCallResultBox: FC<{ subscription: string }> = ({ subscription }) => {
           <button onClick={() => removeRpcCallResult(subscription)}>
             <Trash2
               size={20}
-              className="text-destructive cursor-pointer hover:text-polkadot-500"
+              className="text-destructive cursor-pointer hover:text-quantus-500"
             />
           </button>
         </div>

@@ -24,6 +24,7 @@ import {
   of,
   startWith,
   switchMap,
+  tap,
 } from "rxjs"
 import {
   addCustomNetwork,
@@ -61,10 +62,14 @@ export const getChainSource = ({
   endpoint,
   network: { id, relayChain },
   withChopsticks,
-}: SelectedChain) =>
-  endpoint === "light-client"
+}: SelectedChain) => {
+  console.log(`[Chain Source] Network: ${id}, Endpoint: ${endpoint}`)
+  console.log(`[Chain Source] Using ${endpoint === "light-client" ? "LIGHT CLIENT (smoldot)" : "WEBSOCKET"} connection`)
+  
+  return endpoint === "light-client"
     ? createSmoldotSource(id, relayChain)
     : createWebsocketSource(id, endpoint, withChopsticks)
+}
 
 const setRpcLogsEnabled = (enabled: boolean) =>
   localStorage.setItem("rpc-logs", String(enabled))
@@ -92,12 +97,13 @@ export const getProvider = (source: ChainSource) => {
 
 export const [selectedChainChanged$, onChangeChain] =
   createSignal<SelectedChain>()
-selectedChainChanged$.subscribe(({ network, endpoint }) =>
+selectedChainChanged$.subscribe(({ network, endpoint }) => {
+  console.log(`[Chain Changed] Network: ${network.id}, Endpoint: ${endpoint}`)
   setHashParams({
     networkId: network.id,
     endpoint,
-  }),
-)
+  })
+})
 
 const allNetworks = networkCategories.map((x) => x.networks).flat()
 const findNetwork = (networkId: string): Network | undefined =>
@@ -114,7 +120,9 @@ export const isValidUri = (input: string): boolean => {
 
 const defaultSelectedChain: SelectedChain = {
   network: defaultNetwork,
-  endpoint: "light-client",
+  endpoint: defaultNetwork.lightclient 
+    ? "light-client" 
+    : Object.values(defaultNetwork.endpoints)[0],
   withChopsticks: false,
 }
 const getDefaultChain = (): SelectedChain => {
@@ -133,7 +141,14 @@ const getDefaultChain = (): SelectedChain => {
       }
     }
     const network = findNetwork(networkId)
-    if (network) return { network, endpoint, withChopsticks: false }
+    if (network) {
+      // If network doesn't support light client but endpoint is "light-client", 
+      // use the first available WebSocket endpoint instead
+      const validEndpoint = (!network.lightclient && endpoint === "light-client")
+        ? Object.values(network.endpoints)[0]
+        : endpoint
+      return { network, endpoint: validEndpoint, withChopsticks: false }
+    }
   }
 
   return defaultSelectedChain
@@ -143,7 +158,10 @@ export const selectedChain$ = state<SelectedChain>(
   getDefaultChain(),
 )
 
-const selectedSource$ = selectedChain$.pipe(switchMap(getChainSource))
+const selectedSource$ = selectedChain$.pipe(
+  tap((chain) => console.log(`[Selected Chain]`, chain)),
+  switchMap(getChainSource)
+)
 
 // TODO: 2025-05-27
 // remove old localStorage clear after a while

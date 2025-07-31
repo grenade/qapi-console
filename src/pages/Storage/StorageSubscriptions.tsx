@@ -46,7 +46,7 @@ const StorageSubscriptionBox: FC<{ subscription: string }> = ({
 
   const iconButtonProps = {
     size: 20,
-    className: "text-polkadot-400 cursor-pointer hover:text-polkadot-500",
+    className: "text-quantus-400 cursor-pointer hover:text-quantus-500",
   }
 
   return (

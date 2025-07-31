@@ -39,7 +39,7 @@ export const Lookup: FC = () => {
         <label>
           Id:{" "}
           <input
-            className="text-sm border rounded p-2 border-polkadot-200 leading-tight text-white"
+            className="text-sm border rounded p-2 border-quantus-200 leading-tight text-white"
             value={id}
             onChange={(evt) => {
               setSearch("")
@@ -234,7 +234,7 @@ const GenericLookupNode: FC<PropsWithChildren<{ entry: V14Entry }>> = ({
         <div className="flex gap-2 items-center">
           <Link
             to={`/metadata/lookup/editor/${entry.id}`}
-            className="hover:text-polkadot-400"
+            className="hover:text-quantus-400"
           >
             <Edit size={20} />
           </Link>

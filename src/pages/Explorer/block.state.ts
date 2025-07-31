@@ -36,7 +36,13 @@ import {
 } from "rxjs"
 
 export const finalized$ = client$.pipeState(
-  switchMap((client) => client.finalizedBlock$),
+  switchMap((client) => client.finalizedBlock$.pipe(
+    catchError(() => {
+      // For PoW chains without finality, emit null
+      console.warn("No finalized blocks available - this might be a PoW chain")
+      return of(null)
+    })
+  )),
 )
 
 export enum BlockState {
@@ -135,7 +141,7 @@ const getUnpinnedBlockInfo$ = (hash: string): Observable<BlockInfo> =>
           body,
           events,
           header,
-          status: BlockState.Finalized,
+          status: BlockState.Best, // For unpinned blocks, use Best instead of Finalized
           diff: null,
         })),
         catchError(() => getUnpinnedBlockInfoFallback$(hash, client)),
@@ -188,7 +194,7 @@ const getUnpinnedBlockInfoFallback$ = (
           stateRoot: header.stateRoot,
         },
         number: Number(header.number),
-        status: BlockState.Finalized,
+        status: BlockState.Best, // For unpinned blocks, use Best instead of Finalized
         diff: null,
       }),
     ),
@@ -280,9 +286,19 @@ const getBlockStatus$ = (
       // If the latest finalized is ahead, assume it is finalized (?)
       filter((b) => b.number > number),
       map(() => BlockState.Finalized),
+      catchError(() => EMPTY), // Handle PoW chains without finality
     ),
-    combineLatest([client.bestBlocks$, client.finalizedBlock$]).pipe(
+    combineLatest([
+      client.bestBlocks$,
+      client.finalizedBlock$.pipe(
+        catchError(() => of(null)), // For PoW chains, emit null
+      ),
+    ]).pipe(
       map(([best, finalized]) => {
+        // For PoW chains (finalized is null), treat best blocks as final
+        if (!finalized) {
+          return best.some((b) => b.hash === hash) ? BlockState.Best : BlockState.Fork
+        }
         if (finalized.hash === hash) return BlockState.Finalized
         if (finalized.number === number) return BlockState.Pruned
         if (best.some((b) => b.hash === hash)) return BlockState.Best

@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        polkadot: {
+        quantus: {
           0: "#FBFCFF",
           100: "#F2F3FF",
           200: "#E4DAFF",

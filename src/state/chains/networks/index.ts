@@ -1,7 +1,4 @@
-import ksmRawNetworks from "./kusama.json"
-import paseoRawNetworks from "./paseo.json"
-import polkadotRawNetworks from "./polkadot.json"
-import westendRawNetworks from "./westend.json"
+import resonanceRawNetworks from "./resonance.json"
 
 export type Network = {
   id: string
@@ -16,28 +13,18 @@ export type NetworkCategory = {
   networks: Network[]
 }
 
-const [Polkadot, Kusama, Paseo, Westend] = (
-  [
-    polkadotRawNetworks,
-    ksmRawNetworks,
-    paseoRawNetworks,
-    westendRawNetworks,
-  ] as const
-).map((n): Network[] =>
+const [Resonance] = ([resonanceRawNetworks] as const).map((n): Network[] =>
   n.map((x) => ({
     endpoints: x.rpcs as any,
-    lightclient: x.hasChainSpecs,
+    lightclient: false,
     id: x.id,
     display: x.display,
-    relayChain: x.relayChainInfo?.id,
+    // Resonance is not a parachain, so no relay chain
   })),
 )
 
 const networks = {
-  Polkadot,
-  Kusama,
-  Paseo,
-  Westend,
+  Resonance,
   Custom: [
     {
       id: "localhost",
@@ -61,4 +48,4 @@ export const addCustomNetwork = (uri: string) => {
   getCustomNetwork().endpoints[uri] = uri
 }
 
-export const defaultNetwork = Polkadot[0]
+export const defaultNetwork = Resonance[0]

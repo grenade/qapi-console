@@ -168,7 +168,7 @@ export const ItemTitle: FC<
               "mx-2",
               binaryStatus?.type === "blank" && "text-red-500",
               binaryStatus?.type === "partial" && "text-yellow-400",
-              binaryStatus?.type === "complete" && "text-polkadot-600",
+              binaryStatus?.type === "complete" && "text-quantus-600",
               binaryStatus === undefined && "text-slate-600",
             )}
           />
@@ -183,14 +183,14 @@ export const ItemTitle: FC<
           {onZoom && binaryStatus && (
             <BinaryEdit
               size={24}
-              className={twMerge("cursor-pointer hover:text-polkadot-500")}
+              className={twMerge("cursor-pointer hover:text-quantus-500")}
               onClick={() => setBinaryOpen(true)}
             />
           )}
           {onZoom && (
             <Focus
               size={15}
-              className="cursor-pointer hover:text-polkadot-500"
+              className="cursor-pointer hover:text-quantus-500"
               onClick={onZoom}
             />
           )}

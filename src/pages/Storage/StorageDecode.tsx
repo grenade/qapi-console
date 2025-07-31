@@ -51,7 +51,7 @@ export const StorageDecode: FC = () => {
       <textarea
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="w-full bg-polkadot-100 p-2 rounded tabular-nums text-polkadot-800"
+        className="w-full bg-quantus-100 p-2 rounded tabular-nums text-quantus-800"
         placeholder="Enter hex …"
       />
       <ActionButton disabled={decoded === NOTIN} onClick={submit}>

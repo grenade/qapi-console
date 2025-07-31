@@ -25,7 +25,7 @@ export const ButtonGroup: FC<{
           key={value}
           className={twMerge(
             "text-secondary-foreground px-3 py-1",
-            "hover:text-polkadot-500",
+            "hover:text-quantus-500",
             "data-[state=on]:bg-accent data-[state=on]:text-accent-foreground",
             disabled && "opacity-50 pointer-events-none",
           )}

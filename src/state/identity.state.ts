@@ -2,13 +2,10 @@ import { localStorageSubject } from "@/utils/localStorageSubject"
 import {
   IdentityData,
   IdentityJudgement,
-  polkadot_people,
-  getMetadata,
 } from "@polkadot-api/descriptors"
 import { state } from "@react-rxjs/core"
-import { Binary, createClient, SS58String } from "polkadot-api"
+import { Binary, SS58String } from "polkadot-api"
 import { catchError, from, of, tap } from "rxjs"
-import { getProvider } from "./chains/chain.state"
 
 export interface Identity {
   displayName: string
@@ -26,25 +23,16 @@ const cache = localStorageSubject<Record<string, Identity>>(
   {},
 )
 
-const apiProm = import("./chains/chainspecs/polkadot_people").then(
-  ({ chainSpec }) =>
-    createClient(
-      getProvider({
-        id: "polkadot_people",
-        type: "chainSpec",
-        value: {
-          chainSpec,
-          relayChain: "polkadot",
-        },
-      }),
-      { getMetadata },
-    ).getTypedApi(polkadot_people),
-)
+// Identity lookups disabled - Polkadot People chain not supported in post-quantum fork
+const apiProm = Promise.resolve(null as any)
 
 export const getAddressName = async (
   addr: string,
 ): Promise<Identity | null> => {
   const typedApi = await apiProm
+  // Identity service disabled for post-quantum chains
+  if (!typedApi) return null
+  
   let id = await typedApi.query.Identity.IdentityOf.getValue(addr)
 
   let subIdStr = ""
@@ -62,7 +50,7 @@ export const getAddressName = async (
   return displayName
     ? {
         displayName: `${displayName}${subIdStr}`,
-        judgments: id.judgements.map(([registrar, judgement]) => ({
+        judgments: id.judgements.map(([registrar, judgement]: [any, any]) => ({
           registrar,
           judgement: judgement.type,
         })),

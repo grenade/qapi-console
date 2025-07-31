@@ -7,14 +7,19 @@ import {
 } from "@/state/chains/chain.state"
 import { useStateObservable, withDefault } from "@react-rxjs/core"
 import { FC, PropsWithChildren, ReactElement, useEffect, useState } from "react"
-import { firstValueFrom, map, switchMap } from "rxjs"
+import { catchError, firstValueFrom, map, of, switchMap } from "rxjs"
 import { twMerge } from "tailwind-merge"
 import { BlockTime } from "./BlockTime"
 import { EpochRemainingTime } from "./EpochTime"
 
 const finalizedNum$ = client$.pipeState(
-  switchMap((chainHead) => chainHead.finalizedBlock$),
-  map((v) => v.number),
+  switchMap((chainHead) => chainHead.finalizedBlock$.pipe(
+    map((v) => v.number),
+    catchError(() => {
+      // For PoW chains without finality, return null
+      return of(null)
+    })
+  )),
 )
 const finalized$ = finalizedNum$.pipeState(map((v) => v.toLocaleString()))
 const best$ = client$.pipeState(

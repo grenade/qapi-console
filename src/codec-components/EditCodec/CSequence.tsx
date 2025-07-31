@@ -48,7 +48,7 @@ export const CSequence: EditSequence = ({
       <button
         className={clsx(
           "flex flex-row gap-2 border rounded-full py-1 pl-3 pr-1 mt-3 border-slate-500 text-slate-500",
-          "hover:border-polkadot-500 hover:text-polkadot-500 hover:cursor-pointer",
+          "hover:border-quantus-500 hover:text-quantus-500 hover:cursor-pointer",
         )}
         onClick={addItem}
       >

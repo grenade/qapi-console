@@ -97,6 +97,6 @@ export const MissingData = () => (
 )
 export const toConcatHex = (value: Uint8Array) => toHex(value).slice(2)
 export const highlight = (isActive: boolean) =>
-  isActive ? "text-polkadot-400 mx-1" : ""
+  isActive ? "text-quantus-400 mx-1" : ""
 export const headerHighlight = (isActive: boolean) =>
-  isActive ? "text-polkadot-500" : ""
+  isActive ? "text-quantus-500" : ""

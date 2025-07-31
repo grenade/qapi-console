@@ -1,0 +1,14 @@
+[
+  {
+    "id": "resonance",
+    "display": "Resonance",
+    "hasChainSpecs": true,
+    "rpcs": {
+      "Quantus": "wss://a.t.res.fm"
+    },
+    "nativeToken": {
+      "symbol": "RES",
+      "decimals": 12
+    }
+  }
+]

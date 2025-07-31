@@ -31,9 +31,10 @@ import {
 } from "rxjs"
 
 // https://docs.reown.com/advanced/multichain/polkadot/dapp-integration-guide
-const chains = [
-  "polkadot:91b171bb158e2d3848fa23a9f1c25182", // Polkadot
-  "polkadot:e143f23803ac50e8f6f8e62695d1ce9e", // Westend
+// TODO: Add Resonance chain ID once we have the genesis hash
+// Format: "polkadot:<genesis_hash>"
+const chains: string[] = [
+  // Pre-quantum chains removed - only post-quantum chains supported
 ]
 const projectId = import.meta.env.VITE_REOWN_PROJECT_ID
 const walletConnectModal = new WalletConnectModal({

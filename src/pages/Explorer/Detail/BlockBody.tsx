@@ -85,10 +85,10 @@ export const BlockBody: FC<{
         value={effectiveTab}
         onValueChange={(t) => setSelectedTab(t as any)}
       >
-        <Tabs.List className="shrink-0 flex border-b border-polkadot-200">
+        <Tabs.List className="shrink-0 flex border-b border-quantus-200">
           <Tabs.Trigger
             className={twMerge(
-              "bg-secondary text-secondary-foreground/80 px-4 py-2 hover:text-polkadot-500 border-t border-x rounded-tl border-polkadot-200",
+              "bg-secondary text-secondary-foreground/80 px-4 py-2 hover:text-quantus-500 border-t border-x rounded-tl border-quantus-200",
               "disabled:text-secondary-foreground/50 disabled:bg-secondary/50 disabled:pointer-events-none",
               "data-[state=active]:font-bold data-[state=active]:text-secondary-foreground",
             )}
@@ -99,7 +99,7 @@ export const BlockBody: FC<{
           </Tabs.Trigger>
           <Tabs.Trigger
             className={twMerge(
-              "bg-secondary text-secondary-foreground/80 px-4 py-2 hover:text-polkadot-500 border-t border-r last:rounded-tr border-polkadot-200",
+              "bg-secondary text-secondary-foreground/80 px-4 py-2 hover:text-quantus-500 border-t border-r last:rounded-tr border-quantus-200",
               "disabled:text-secondary-foreground/50 disabled:pointer-events-none",
               "data-[state=active]:font-bold data-[state=active]:text-secondary-foreground",
             )}
@@ -110,7 +110,7 @@ export const BlockBody: FC<{
           {block.diff && (
             <Tabs.Trigger
               className={twMerge(
-                "bg-secondary text-secondary-foreground/80 px-4 py-2 hover:text-polkadot-500 border-t border-r rounded-tr border-polkadot-200",
+                "bg-secondary text-secondary-foreground/80 px-4 py-2 hover:text-quantus-500 border-t border-r rounded-tr border-quantus-200",
                 "disabled:text-secondary-foreground/50 disabled:bg-secondary/50 disabled:pointer-events-none",
                 "data-[state=active]:font-bold data-[state=active]:text-secondary-foreground",
               )}

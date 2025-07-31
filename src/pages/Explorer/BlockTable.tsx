@@ -96,7 +96,7 @@ export const BlockTable = () => {
     } while (number === rows[idx]?.block.number)
     return idx - initialIdx
   }
-  if (!finalized) return null
+  // For PoW chains, finalized might be null, but we still want to show blocks
 
   return (
     <Finalizing.Root>
@@ -106,7 +106,7 @@ export const BlockTable = () => {
           <Finalizing.Row
             key={row.block.hash}
             number={row.block.number}
-            finalized={finalized.number}
+            finalized={finalized?.number ?? -1}
             firstInGroup={row.position === 0}
             idx={i}
           >
@@ -121,9 +121,9 @@ export const BlockTable = () => {
                         "border-card-foreground/25",
                       )
                     : null,
-                  row.block.number === finalized.number &&
+                  finalized && row.block.number === finalized.number &&
                     "border-t-card-foreground/50",
-                  row.block.number === finalized.number + 1 &&
+                  finalized && row.block.number === finalized.number + 1 &&
                     "border-b-card-foreground/50",
                 )}
               >
@@ -144,7 +144,7 @@ export const BlockTable = () => {
                       "text-card-foreground/80 hover:text-card-foreground/100",
                       row.position === 0
                         ? ""
-                        : row.block.number > finalized.number
+                        : finalized && row.block.number > finalized.number
                           ? "opacity-80"
                           : "opacity-50",
                     )}
@@ -209,7 +209,7 @@ const ForkRenderer: FC<{ row: PositionedBlock }> = ({ row }) => {
         cy={CELL_HEIGHT / 2}
         r={CIRCLE_R}
         className={
-          row.position === 0 ? "fill-polkadot-500" : "fill-polkadot-600"
+          row.position === 0 ? "fill-quantus-500" : "fill-quantus-600"
         }
       />
     </svg>

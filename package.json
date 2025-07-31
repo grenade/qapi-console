@@ -1,5 +1,6 @@
 {
-  "name": "papi-console",
+  "name": "qapi-console",
+  "description": "Post-quantum blockchain console for interacting with chains using quantum-resistant signatures",
   "private": true,
   "version": "0.0.4",
   "type": "module",
