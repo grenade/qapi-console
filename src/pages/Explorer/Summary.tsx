@@ -21,7 +21,7 @@ const finalizedNum$ = client$.pipeState(
     })
   )),
 )
-const finalized$ = finalizedNum$.pipeState(map((v) => v.toLocaleString()))
+const finalized$ = finalizedNum$.pipeState(map((v) => v?.toLocaleString() ?? null))
 const best$ = client$.pipeState(
   switchMap((chainHead) => chainHead.bestBlocks$),
   map(([v]) => v.number.toLocaleString()),
@@ -84,11 +84,11 @@ const SummaryItem: FC<
 
 const Jump = () => {
   const finalized = useStateObservable(finalizedNum$)
-  const [value, setValue] = useState(finalized + 1)
+  const [value, setValue] = useState(finalized !== null ? finalized + 1 : 1)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setValue((v) => Math.max(v, finalized + 1))
+    setValue((v) => Math.max(v, finalized !== null ? finalized + 1 : 1))
   }, [finalized])
 
   return (
@@ -112,7 +112,7 @@ const Jump = () => {
             const client = await firstValueFrom(client$)
             await client._request(
               "dev_newBlock",
-              value === finalized + 1
+              value === (finalized !== null ? finalized + 1 : 1)
                 ? []
                 : [
                     {

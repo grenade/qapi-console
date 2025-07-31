@@ -9,7 +9,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "papi --whitelist whitelist.ts"
+    "postinstall": "papi --whitelist whitelist.ts",
+    "predeploy": "tsc -b && vite build",
+    "deploy": "npx wrangler pages deploy dist"
   },
   "prettier": {
     "semi": false

@@ -68,6 +68,11 @@ The following chains and their associated files have been removed:
 - **Supported Chain**: Resonance (ML-DSA signatures)
 - **Connection Type**: WebSocket only (light client not yet supported)
 - **Endpoint**: wss://a.t.res.fm
+- **PoW Finality Support**: Automatic detection and mapping of `qpowChainHead_v1_*` methods for chains with custom PoW finality
+
+## Recent Updates
+
+- **Dynamic qpow Detection**: The console now automatically detects when a chain supports `qpowChainHead_v1_*` methods and transparently maps standard `chainHead_v1_*` calls. This enables proper support for chains like Resonance where finality lags by 180 blocks.
 
 ## TODOs
 
