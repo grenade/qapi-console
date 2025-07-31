@@ -1,6 +1,6 @@
-# https://qapi.sh
+# https://qapi.how
 
-like dev.papi.how / github.com/polkadot-api/papi-console, but quantum safe.
+like [papi.how](https://dev.papi.how) / [polkadot-api/papi-console](https://github.com/polkadot-api/papi-console), but edging towards quantum safety.
 
 # dev usage
 
