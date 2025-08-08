@@ -64,8 +64,10 @@ export const getChainSource = ({
   withChopsticks,
 }: SelectedChain) => {
   console.log(`[Chain Source] Network: ${id}, Endpoint: ${endpoint}`)
-  console.log(`[Chain Source] Using ${endpoint === "light-client" ? "LIGHT CLIENT (smoldot)" : "WEBSOCKET"} connection`)
-  
+  console.log(
+    `[Chain Source] Using ${endpoint === "light-client" ? "LIGHT CLIENT (smoldot)" : "WEBSOCKET"} connection`,
+  )
+
   return endpoint === "light-client"
     ? createSmoldotSource(id, relayChain)
     : createWebsocketSource(id, endpoint, withChopsticks)
@@ -120,8 +122,8 @@ export const isValidUri = (input: string): boolean => {
 
 const defaultSelectedChain: SelectedChain = {
   network: defaultNetwork,
-  endpoint: defaultNetwork.lightclient 
-    ? "light-client" 
+  endpoint: defaultNetwork.lightclient
+    ? "light-client"
     : Object.values(defaultNetwork.endpoints)[0],
   withChopsticks: false,
 }
@@ -142,11 +144,12 @@ const getDefaultChain = (): SelectedChain => {
     }
     const network = findNetwork(networkId)
     if (network) {
-      // If network doesn't support light client but endpoint is "light-client", 
+      // If network doesn't support light client but endpoint is "light-client",
       // use the first available WebSocket endpoint instead
-      const validEndpoint = (!network.lightclient && endpoint === "light-client")
-        ? Object.values(network.endpoints)[0]
-        : endpoint
+      const validEndpoint =
+        !network.lightclient && endpoint === "light-client"
+          ? Object.values(network.endpoints)[0]
+          : endpoint
       return { network, endpoint: validEndpoint, withChopsticks: false }
     }
   }
@@ -160,7 +163,7 @@ export const selectedChain$ = state<SelectedChain>(
 
 const selectedSource$ = selectedChain$.pipe(
   tap((chain) => console.log(`[Selected Chain]`, chain)),
-  switchMap(getChainSource)
+  switchMap(getChainSource),
 )
 
 // TODO: 2025-05-27
